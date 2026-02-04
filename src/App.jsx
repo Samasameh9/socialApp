@@ -13,6 +13,7 @@ import Profile from "./components/profile/Profile";
 import ProtectRoutes from "./components/ProtectRoutes";
 import SinglePost from "./components/SinglePost/SinglePost";
 import ChangePass from "./components/Login/ChangePass";
+import NotFound from "./components/NotFound";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +24,7 @@ function App() {
         { path: "/", element: <Login /> },
         { path: "/changepassword", element: <ChangePass/>},
         { path: "register", element: <Register /> },
+         { path: '*', element: <NotFound /> },
         {
           path: "home",
           element: (
