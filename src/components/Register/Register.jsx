@@ -17,6 +17,7 @@ export default function Register() {
   } = useForm({
     defaultValues: {
       name: "",
+      username:"",
       email: "",
       password: "",
       rePassword: "",
@@ -32,10 +33,10 @@ export default function Register() {
     console.log(userData);
     let response = await SignUpApi(userData);
     console.log(response);
-    if (response.message == "success") {
+    if (response.success == true) {
       navigate("/");
     } else {
-      setApiError(response.error);
+      setApiError(response.errors);
     }
     setisLoading(false);
   }
@@ -71,6 +72,13 @@ export default function Register() {
               type="text"
               className="mt-5  "
               placeholder="Enter your name"
+            />
+            <Input
+              isInvalid={Boolean(errors.username && touchedFields.username)}
+              errorMessage={errors.username?.message}
+              {...register("username")}
+              type="text"
+              placeholder="Enter your username"
             />
 
             <Input

@@ -2,9 +2,9 @@ import axios from "axios";
 
 export async function GetPosts(){
 try {
-    let {data}= await axios.get('https://linked-posts.routemisr.com/posts', {
+    let {data}= await axios.get('https://route-posts.routemisr.com/posts', {
             headers:{
-                token:localStorage.getItem('token')
+                Authorization:`Bearer ${localStorage.getItem('token')}`
             },
             params:{
                 limit:50,
@@ -21,9 +21,9 @@ try {
 // ========================
 export async function GetSinglePosts(id){
 try {
-    let{data}= await axios.get(`https://linked-posts.routemisr.com/posts/${id}`, {
+    let{data}= await axios.get(`https://route-posts.routemisr.com/posts/${id}`, {
             headers:{
-                token:localStorage.getItem('token')
+                Authorization:`Bearer ${localStorage.getItem('token')}`
             }
         }
     )
@@ -36,10 +36,10 @@ try {
 //========================
 export async function CreateMyPost(formdata){
  try{
-    let{data}= await axios.post(`https://linked-posts.routemisr.com/posts`,formdata,{
-    headers:{
-        token:localStorage.getItem("token")
-    }
+    let{data}= await axios.post(`https://route-posts.routemisr.com/posts`,formdata,{
+      headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
     
  })
  return data
@@ -51,10 +51,10 @@ return error
 //============================
 export async function UserPosts(userId){
  try{
-    let{data}= await axios.get(`https://linked-posts.routemisr.com/users/${userId}/posts?limit=2`,{
-    headers:{
-        token:localStorage.getItem("token")
-    },
+    let{data}= await axios.get(`https://route-posts.routemisr.com/users/${userId}/posts`,{
+     headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
   
  })
  return data
@@ -67,9 +67,9 @@ return error
 export async function UpdateMyPost(formdata,postId){
  try{
     let{data}= await axios.put(`https://linked-posts.routemisr.com/posts/${postId}`,formdata,{
-    headers:{
-        token:localStorage.getItem("token")
-    }
+  headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
     
  })
  return data
@@ -84,8 +84,8 @@ export async function DeleteMyPost(id){
     let{data}= await  axios.delete(`https://linked-posts.routemisr.com/posts/${id}`,
      {
     headers:{
-        token:localStorage.getItem("token")
-    }
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
     
  })
  return data

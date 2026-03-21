@@ -19,7 +19,9 @@ export default function CreatePost({callback}) {
     }
 
     const response = await CreateMyPost(formdata);
-    if (response.message=='success') {
+    console.log(response);
+    
+    if (response.success==true) {
      await callback()
       setpostBody("");
       setimageUrl("");

@@ -2,10 +2,10 @@ import axios from "axios"
 
 export async function GetUserLogged(){
  try{
-    let{data}= await  axios.get(`https://linked-posts.routemisr.com/users/profile-data`,{
+    let{data}= await  axios.get(`https://route-posts.routemisr.com/users/profile-data`,{
     headers:{
-        token:localStorage.getItem("token")
-    }
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
     
  })
  return data

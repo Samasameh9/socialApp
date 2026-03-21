@@ -26,12 +26,14 @@ let [ApiError,setApiError]=useState(null)
  setisLoading(true)
   console.log("sumbit",userData)
  let response=await SignIn(userData)
- if(response.message=="success"){
-  localStorage.setItem("token",response.token)
-  setuserToken(response.token)
+ console.log(response);
+ 
+ if(response.success==true){
+  localStorage.setItem("token",response.data.token)
+  setuserToken(response.data.token)
   navigate('/home')
  }else{
-  setApiError(response.error)
+  setApiError(response.errors)
  }
 setisLoading(false)
 

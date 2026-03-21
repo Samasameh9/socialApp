@@ -14,7 +14,7 @@ const [userToken, setuserToken] = useState(null)
   let response=await GetUserLogged()
   console.log(response)
    if(response.message=='success'){
-     setUserDetails(response.user)
+     setUserDetails(response.data.user)
     
      
    }

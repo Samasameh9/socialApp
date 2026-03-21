@@ -13,7 +13,7 @@ let{id}=useParams()
    let response=await GetSinglePosts(id)
   console.log(response)
    if(response.message=='success'){
-    setpostDetails(response.post)
+    setpostDetails(response.data.post)
    }
     }
     useEffect(()=>{

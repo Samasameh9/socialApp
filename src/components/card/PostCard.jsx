@@ -14,7 +14,7 @@ let {UserDetails} = useContext(AuthContext)
     e.preventDefault();
     const response = await CreateMyComment(commentContent, post.id);
     console.log(response);
-    if (response.message == "success") {
+    if (response.success == true) {
       await callback?.();
       setcommentContent("");
     }
@@ -89,9 +89,9 @@ let {UserDetails} = useContext(AuthContext)
                 </svg>
               </div>
               <div className="w-full flex justify-between">
-                <p className="ml-3 text-gray-500">8</p>
+                <p className="ml-3 text-gray-500">{post.likesCount}</p>
                 <p className="ml-3 text-gray-500 flex cursor-pointer ">
-                  {post.comments.length}{" "}
+                  {post.commentsCount}{" "}
                   <Link
                     className="ps-1 text-green-700"
                     href={`/singlepost/${post.id}`}
@@ -180,10 +180,11 @@ let {UserDetails} = useContext(AuthContext)
                   Add comment
                 </Button>
               </form>
-              {post.comments.length > 0 && Allcomment == false ? (
-                <Comment callback={callback} Comment={post.comments[0]} id={post.user._id}/>
+              
+              {post.topComment?.length > 0 && Allcomment == false ? (
+                <Comment callback={callback} Comment={post.topComment} id={post.user._id}/>
               ) : (
-                post.comments.map((comment) => {
+                post.comments?.map((comment) => {
                   return <Comment key={comment._id} callback={callback} Comment={comment} id={post.user._id}/>;
                 })
               )}

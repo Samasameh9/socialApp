@@ -15,7 +15,7 @@ export default function Profile() {
     let response = await GetUserLogged();
     console.log(response);
     if (response.message == "success") {
-      setUserId(response.user._id);
+      setUserId(response.data.user?._id);
     }
     console.log(response.user);
   }
@@ -25,7 +25,7 @@ export default function Profile() {
     let response = await UserPosts(UserId);
     console.log(response);
     if (response.message == "success") {
-      setuserPosts(response.posts);
+      setuserPosts(response.data.posts);
       
     }
     console.log(response.posts);
@@ -39,7 +39,7 @@ export default function Profile() {
 
     let response = await UploadPhoto(formData);
     console.log(response);
-    if (response.message == "success") {
+    if (response.success == true) {
       toast.success("Photo changed");
       GetUserPosts()
       
@@ -89,9 +89,9 @@ export default function Profile() {
         className=" hidden"
       />
 
-      {userPosts.length > 0
+      {userPosts?.length > 0
         ? userPosts.map((post) => {
-            return <PostCard key={post.user._id} post={post} callback={GetUserPosts} />;
+            return <PostCard key={post.user?.id} post={post} callback={GetUserPosts} />;
           })
         : <Loading/>}
     </>

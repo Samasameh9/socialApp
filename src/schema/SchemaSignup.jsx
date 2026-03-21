@@ -1,7 +1,8 @@
 import * as zod from "zod";
 export const Schema = zod
   .object({
-    name: zod.string().nonempty("name is required").max(5, "max name char is 5").min(3, "min name char is 3"),
+    name: zod.string().nonempty("name is required").max(10, "max name char is 5").min(3, "min name char is 3"),
+    username:zod.string().nonempty("username is required").max(10, "max name char is 5").min(3, "min name char is 3"),
     email: zod.string().nonempty("email is required").regex(/^[\w\-\.]+@([\w-]+\.)+[\w-]{2,}$/, "invalid email"),
     password: zod.string().nonempty("password is required").regex(/^((?=\S*?[A-Z])(?=\S*?[a-z])(?=\S*?[0-9]).{6,})\S$/),
     rePassword: zod.string().nonempty("repassword is required"),

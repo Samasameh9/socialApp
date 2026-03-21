@@ -35,10 +35,10 @@ export default function ChangePass() {
       console.log("submit", userData);
 
       let response = await ChangePassword(userData);
+console.log(response);
 
-      if (response?.message === "success") {
-        toast.success("Password changed");
-        navigate("/home");
+      if (response?.success === true) {
+        toast.success("Password changed Login again");
       } else {
         toast.error("Password unchanged, try again");
         setApiError(response?.error || "Something went wrong");

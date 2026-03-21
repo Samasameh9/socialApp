@@ -74,7 +74,7 @@ export default function Navbar() {
                   Change password
                 </DropdownItem>
                 <DropdownItem onClick={Logout} key="logout" color="danger">
-                  Log Out
+                  Log Out, {UserDetails?.name}
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

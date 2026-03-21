@@ -3,7 +3,7 @@ import axios from 'axios'
 
 export default async function SignIn(userData) {
   try {
-       let {data}= await axios.post("https://linked-posts.routemisr.com/users/signin",userData)
+       let {data}= await axios.post("https://route-posts.routemisr.com/users/signin",userData)
  return data
   } catch (error) {
     return error.response.data
@@ -12,12 +12,12 @@ export default async function SignIn(userData) {
 //==================================
 export async function ChangePassword(userData) {
   try {
-    let { data } = await axios.patch("https://linked-posts.routemisr.com/users/change-password",
+    let { data } = await axios.patch("https://route-posts.routemisr.com/users/change-password",
       userData,
       {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
+        headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            },
       }
     );
 
