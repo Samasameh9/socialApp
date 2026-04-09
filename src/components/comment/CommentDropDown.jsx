@@ -15,7 +15,7 @@ import {
 } from "@heroui/react";
 import { DeleteMyComment, UpdateMyComment } from "../../services/CommentsApi";
 
-export default function CommentDropDown({ CommentId, callback }) {
+export default function CommentDropDown({ CommentId, callback  , postId ,refreshComments}) {
   const [isLoading, setisLoading] = useState(false);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [CommentContent, setCommentContent] = useState("");
@@ -28,22 +28,24 @@ export default function CommentDropDown({ CommentId, callback }) {
       content: CommentContent,
     };
 
-    const response = await UpdateMyComment(data, CommentId);
+    const response = await UpdateMyComment(data, CommentId,postId);
     console.log(response);
-    if (response.message == "success") {
-      await callback?.();
-      setCommentContent("");
+     if (response.success == true) {
+       await callback?.();
+       setCommentContent("");
+       await refreshComments();
       
-    }
-    setisLoading(false);
+     }
+     setisLoading(false);
   }
 
   //=================
   async function DeleteComment() {
-    const response = await DeleteMyComment(CommentId);
+    const response = await DeleteMyComment(CommentId , postId);
     setisLoading(true);
-    if (response.message == "success") {
+    if (response.success == true) {
       await callback();
+    await  refreshComments();
     }
     setisLoading(false);
   }

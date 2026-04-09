@@ -21,10 +21,16 @@ export default function PostDropDown({ postId, callback }) {
   const [image, setimage] = useState("");
   const [imageUrl, setimageUrl] = useState("");
   const [isLoading, setisLoading] = useState(false);
-
+const [error, setError] = useState("");
   async function UpdatePost(e) {
+     e.preventDefault();
+    if (!postBody && image) {
+    setError("You must update body ");
+    return;
+  }
+  setError(""); 
     setisLoading(true);
-    e.preventDefault();
+   
     console.log(postBody, image);
     const formdata = new FormData();
     formdata.append("body", postBody ?? "");
@@ -32,8 +38,10 @@ export default function PostDropDown({ postId, callback }) {
       formdata.append("image", image);
     }
     const response = await UpdateMyPost(formdata, postId);
+    
+    
     console.log(response);
-    if (response.message == "success") {
+    if (response.success == true) {
       await callback();
       setpostBody("");
       setimageUrl("");
@@ -44,7 +52,8 @@ export default function PostDropDown({ postId, callback }) {
      async function DeletePost(){
         const response=await DeleteMyPost(postId)
         setisLoading(true)
-        if(response.message=='success'){
+        console.log(response);
+        if(response.success==true){
        await callback()  
         }
         setisLoading(false)
@@ -185,27 +194,38 @@ export default function PostDropDown({ postId, callback }) {
                       </div>
                     </div>
                     {/* buttons */}
+
+          {error && (
+  <h2 className="text-red-500 text-center mb-2">
+    {error}
+  </h2>
+)}
                     <div className="buttons flex justify-end">
                       <Button
                         isLoading={isLoading}
                         type="submit"
                         className="btn border border-green-700 p-1 px-4 font-semibold cursor-pointer text-gray-200 ml-2 bg-green-700"
-                      >
+                    >
+
                         Post
                       </Button>
+                     
                     </div>
                   </div>
                 </form>
               </ModalBody>
               <ModalFooter>
+                
                 <Button color="danger" variant="light" onPress={onClose}>
                   Close
                 </Button>
+                
               </ModalFooter>
             </>
           )}
         </ModalContent>
       </Modal>
+      
     </>
   );
 }

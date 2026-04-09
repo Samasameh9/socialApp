@@ -18,9 +18,9 @@ return error
 
 }
 //=====================================
-export async function DeleteMyComment(id){
+export async function DeleteMyComment(id, postId){
  try{
-    let{data}= await  axios.delete(`https://linked-posts.routemisr.com/comments/${id}`,
+    let{data}= await  axios.delete(`https://route-posts.routemisr.com/posts/${postId}/comments/${id}`,
      {
     headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
@@ -34,9 +34,9 @@ return error
 
 }
 //====================================
-export async function UpdateMyComment(formdata,commentId){
+export async function UpdateMyComment(formdata,commentId,postId){
  try{
-    let{data}= await axios.put(`https://linked-posts.routemisr.com/comments/${commentId}`,formdata,{
+    let{data}= await axios.put(`https://route-posts.routemisr.com/posts/${postId}/comments/${commentId}`,formdata,{
   headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             }
@@ -46,4 +46,23 @@ export async function UpdateMyComment(formdata,commentId){
 return error
  }
 
+}
+//====================================
+export async function GetComments(postId){
+try {
+    let {data}= await axios.get(`https://route-posts.routemisr.com/posts/${postId}/comments`, {
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            },
+            params:{
+                limit:10,
+                sort:'-createdAt'
+            }
+        }
+    )
+    return data
+
+} catch (error) {
+    return error
+}
 }

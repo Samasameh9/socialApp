@@ -39,6 +39,7 @@ console.log(response);
 
       if (response?.success === true) {
         toast.success("Password changed Login again");
+        window.location.href='/'
       } else {
         toast.error("Password unchanged, try again");
         setApiError(response?.error || "Something went wrong");

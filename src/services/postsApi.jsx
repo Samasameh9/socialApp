@@ -66,7 +66,7 @@ return error
 //========================
 export async function UpdateMyPost(formdata,postId){
  try{
-    let{data}= await axios.put(`https://linked-posts.routemisr.com/posts/${postId}`,formdata,{
+    let{data}= await axios.put(`https://route-posts.routemisr.com/posts/${postId}`,formdata,{
   headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             }
@@ -81,7 +81,7 @@ return error
 //========================
 export async function DeleteMyPost(id){
  try{
-    let{data}= await  axios.delete(`https://linked-posts.routemisr.com/posts/${id}`,
+    let{data}= await  axios.delete(`https://route-posts.routemisr.com/posts/${id}`,
      {
     headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`

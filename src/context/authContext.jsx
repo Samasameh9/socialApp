@@ -14,7 +14,7 @@ const [userToken, setuserToken] = useState(null)
   let response=await GetUserLogged()
   console.log(response)
    if(response.message=='success'){
-     setUserDetails(response.data.user)
+     setUserDetails(response?.data?.user)
     
      
    }
@@ -27,7 +27,7 @@ useEffect(()=>{
     }
 },[])
 
-    return <AuthContext.Provider value={{userToken,setuserToken , UserDetails,   setUserDetails,}}>
+    return <AuthContext.Provider value={{userToken,setuserToken , UserDetails,   setUserDetails,GetUserDetails}}>
 {children}
     </AuthContext.Provider>
 }

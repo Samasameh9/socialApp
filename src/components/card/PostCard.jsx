@@ -1,13 +1,14 @@
 import { Button, Input, Link } from "@heroui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Comment from "../comment/Comment";
-import { CreateMyComment } from "./../../services/CommentsApi";
+import { CreateMyComment, GetComments } from "./../../services/CommentsApi";
 import PostDropDown from "../posts/PostDropDown";
 import { AuthContext } from "../../context/authContext";
 
 export default function PostCard({ post, Allcomment, callback }) {
 let {UserDetails} = useContext(AuthContext)
   let [commentContent, setcommentContent] = useState("");
+    let [Allpostcomments, setAllpostcomments] = useState([]);
   let [isLoading, setisLoading] = useState(false);
   async function createComment(e) {
     setisLoading(true);
@@ -15,12 +16,29 @@ let {UserDetails} = useContext(AuthContext)
     const response = await CreateMyComment(commentContent, post.id);
     console.log(response);
     if (response.success == true) {
-      await callback?.();
       setcommentContent("");
+       await GetAllComments();
+      await callback?.();
+      
     }
 
     setisLoading(false);
   }
+  async function GetAllComments(){
+    
+    let response=await GetComments(post.id)
+    console.log(response);
+    
+     if(response.success==true){
+      setAllpostcomments(response?.data?.comments)
+  
+  
+    }
+    
+  }
+  useEffect(()=>{
+    GetAllComments()
+  },[post.id])
   return (
     <>
       <div className=" w-full flex flex-col px-3 lg:px-10 py-3  ">
@@ -180,14 +198,15 @@ let {UserDetails} = useContext(AuthContext)
                   Add comment
                 </Button>
               </form>
-              
-              {post.topComment?.length > 0 && Allcomment == false ? (
-                <Comment callback={callback} Comment={post.topComment} id={post.user._id}/>
+             
+              {Allpostcomments?.length > 0 && Allcomment == false ? (
+                <Comment callback={callback} Comment={post.topComment} id={post.user._id} postId={post.id} refreshComments={GetAllComments}/>
               ) : (
-                post.comments?.map((comment) => {
-                  return <Comment key={comment._id} callback={callback} Comment={comment} id={post.user._id}/>;
+                Allpostcomments?.map((comment) => {
+                  return <Comment key={comment._id} callback={callback} Comment={comment} id={post.user._id} postId={post.id} refreshComments={GetAllComments}/>;
                 })
               )}
+    
             </div>
           </div>
         </div>

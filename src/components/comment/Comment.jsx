@@ -3,7 +3,7 @@ import userimage from "./../../assets/user.png";
 import { AuthContext } from "../../context/authContext";
 import CommentDropDown from "./CommentDropDown";
 
-export default function Comment({ Comment, id, callback }) {
+export default function Comment({ Comment, id, callback ,postId ,refreshComments }) {
   let { UserDetails } = useContext(AuthContext);
 
   return (
@@ -40,7 +40,7 @@ export default function Comment({ Comment, id, callback }) {
         </div>
         {UserDetails?._id == Comment?.commentCreator?._id &&
           UserDetails?._id == id && (
-            <CommentDropDown callback={callback} CommentId={Comment._id} />
+            <CommentDropDown callback={callback} CommentId={Comment._id} postId={postId} refreshComments={refreshComments}/>
           )}
       </div>
     </>

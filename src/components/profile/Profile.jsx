@@ -8,27 +8,20 @@ import Loading from "../LoadingPage/Loading";
 import { AuthContext } from "../../context/authContext";
 
 export default function Profile() {
-  let [UserId, setUserId] = useState(null);
+  const { UserDetails, GetUserDetails } = useContext(AuthContext);
   let [userPosts, setuserPosts] = useState([]);
-  //user details
-  async function GetUserDetails() {
-    let response = await GetUserLogged();
-    console.log(response);
-    if (response.message == "success") {
-      setUserId(response.data.user?._id);
-    }
-    console.log(response.user);
-  }
+  const [loading, setLoading] = useState(true);
 
   // user posts
   async function GetUserPosts() {
-    let response = await UserPosts(UserId);
+    setLoading(true);
+    let response = await UserPosts(UserDetails?.id);
     console.log(response);
     if (response.message == "success") {
-      setuserPosts(response.data.posts);
-      
+      setuserPosts(response?.data?.posts);
     }
-    console.log(response.posts);
+    setLoading(false);
+    console.log(response?.data?.posts);
   }
   //upload photo
   async function handleUpload(e) {
@@ -41,9 +34,8 @@ export default function Profile() {
     console.log(response);
     if (response.success == true) {
       toast.success("Photo changed");
-      GetUserPosts()
-      
-      
+      await GetUserDetails();
+      await GetUserPosts();
     } else {
       toast.error("Photo unchanged try again");
     }
@@ -52,11 +44,12 @@ export default function Profile() {
   useEffect(() => {
     GetUserDetails();
   }, []);
+
   useEffect(() => {
-    if (UserId) {
-      GetUserPosts(UserId);
+    if (UserDetails?._id) {
+      GetUserPosts();
     }
-  }, [UserId]);
+  }, [UserDetails]);
 
   return (
     <>
@@ -88,12 +81,17 @@ export default function Profile() {
         id="uploadphoto"
         className=" hidden"
       />
-
-      {userPosts?.length > 0
-        ? userPosts.map((post) => {
-            return <PostCard key={post.user?.id} post={post} callback={GetUserPosts} />;
-          })
-        : <Loading/>}
+      {loading ? (
+        <Loading />
+      ) : userPosts.length === 0 ? (
+        <h2 className="text-center font-bold text-3xl text-green-700 my-5">
+          No posts
+        </h2>
+      ) : (
+        userPosts.map((post) => (
+          <PostCard key={post?._id} post={post} callback={GetUserPosts} />
+        ))
+      )}
     </>
   );
 }
