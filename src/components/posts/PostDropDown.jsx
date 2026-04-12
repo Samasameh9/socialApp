@@ -67,7 +67,7 @@ const [error, setError] = useState("");
     <>
       <Dropdown>
         <DropdownTrigger>
-          <h2 className="font-bold text-2xl cursor-pointer">...</h2>
+          <h2 className="font-bold text-2xl cursor-pointer text-green-700">...</h2>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem key="edit">

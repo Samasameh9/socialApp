@@ -94,3 +94,52 @@ return error
  }
 
 }
+//=========================
+export async function LikeUnlikePost(postId){
+ try{
+    let{data}= await axios.put(`https://route-posts.routemisr.com/posts/${postId}/like`,{},
+ { headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+    
+        })  
+ return data
+ }catch(error){
+return error
+ }
+
+}
+//==========================
+export async function GetLikes(postId){
+try {
+    let {data}= await axios.get(`https://route-posts.routemisr.com/posts/${postId}/likes?p`, {
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            },
+            params:{
+                limit:50,
+                
+            }
+        }
+    )
+    return data
+
+} catch (error) {
+    return error
+}
+}
+//==========================
+export async function SharePost(formdata,postId){
+ try{
+    let{data}= await axios.post(`https://route-posts.routemisr.com/posts/${postId}/share`,formdata,{
+      headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+    
+ })
+ return data
+ }catch(error){
+return error
+ }
+
+}

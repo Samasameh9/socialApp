@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import bg from "./../../assets/bg.png";
+import bg from "./../../assets/bgg.jpg";
 import { Button, Input, Select, SelectItem } from "@heroui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -133,7 +133,7 @@ export default function Register() {
             <Button
               isLoading={isLoading}
               type="submit"
-              className="w-full my-4 border bg-green-200  border-green-200 rounded py-2 hover:bg-green-700  duration-200 "
+              className="w-full my-4 border bg-green-700  border-green-200 rounded py-2 hover:bg-green-800  duration-200 "
             >
               Submit
             </Button>

@@ -8,7 +8,7 @@ export default function Comment({ Comment, id, callback ,postId ,refreshComments
 
   return (
     <>
-      <div className="w-full h-16 flex items-center bg-gray-100  justify-between border-1 border-gray-200 py-5 rounded-md px-2 my-2">
+      <div className="w-full  flex items-center bg-gray-100  justify-between border-1 border-gray-200 py-1 rounded-md px-2 my-2">
         <div className="flex">
           <img
             onError={(e) => {
@@ -36,7 +36,10 @@ export default function Comment({ Comment, id, callback ,postId ,refreshComments
                 .replace("T", " ")}
             </p>
             <p>{Comment?.content}</p>
+            <span className="text-xs border p-1 cursor-pointer  rounded border-green-700">Reply</span>
+            <span className="text-xs mx-2 p-1 border rounded border-green-700 cursor-pointer">Like</span>
           </div>
+          
         </div>
         {UserDetails?._id == Comment?.commentCreator?._id &&
           UserDetails?._id == id && (

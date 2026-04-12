@@ -1,6 +1,6 @@
 import { Button } from "@heroui/react";
 import React, { useContext, useState } from "react";
-import bg from "./../../assets/bg.png";
+import bg from "./../../assets/bgg.jpg";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { SchemaLogin } from "../../schema/Schemalogin";
@@ -89,7 +89,7 @@ setisLoading(false)
             {ApiError?  <p className="text-red-500 text-center text-xl ">{ApiError}</p>:null}
         <div className="flex justify-between"> 
         <h4 className="text-xs   font-bold">DONOT HAVE ACCOUNT, <Link to='/register' className="text-green-700 cursor-pointer">REGISTER</Link>?</h4></div>
-          <Button isLoading={isLoading} type="submit" className="border bg-green-200  border-green-200 rounded py-2 hover:bg-green-700  duration-200 ">
+          <Button isLoading={isLoading} type="submit" className="border bg-green-700  border-green-200 rounded py-2 hover:bg-green-800  duration-200 ">
             LOGIN
           </Button>
         </div>

@@ -11,6 +11,7 @@ export default function Profile() {
   const { UserDetails, GetUserDetails } = useContext(AuthContext);
   let [userPosts, setuserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+console.log(UserDetails);
 
   // user posts
   async function GetUserPosts() {
@@ -54,9 +55,15 @@ export default function Profile() {
   return (
     <>
       <Toaster />
+     <div className="md:flex items-center ">
+       <div className=" w-sm mx-auto lg:w-1/5 "><img src={UserDetails?.photo} alt="user photo" className="rounded-2xl w-full" /></div>
+       <div className="px-5 py-5"><h3 className="font-bold text-green-700">Followers: {UserDetails?.followersCount}</h3>
+       <h3 className="font-bold text-green-700">Following: {UserDetails?.followingCount}</h3>
+              <h3 className="font-bold text-green-700">Posts: {userPosts?.length}</h3>
+       </div>
       <label
         htmlFor="uploadphoto"
-        className="font-bold flex gap-1  text-xl items-center border rounded-2xl justify-center p-2 cursor-pointer bg-green-700 text-white hover:bg-green-600 duration-250 w-sm md:w-lg lg:w-3xl mx-auto"
+        className="font-bold flex gap-1 text-xl items-center border rounded-2xl justify-center p-2 cursor-pointer bg-green-700 text-white hover:bg-green-600 duration-250 w-sm  mx-auto "
       >
         <h2>Click to change your profile photo</h2>{" "}
         <svg
@@ -74,6 +81,7 @@ export default function Profile() {
           />
         </svg>
       </label>
+     </div>
 
       <input
         type="file"
@@ -81,6 +89,7 @@ export default function Profile() {
         id="uploadphoto"
         className=" hidden"
       />
+      <h2 className="flex justify-center text-2xl font-bold text-green-700">Your posts</h2>
       {loading ? (
         <Loading />
       ) : userPosts.length === 0 ? (

@@ -4,7 +4,7 @@ import { SchemaChangePass } from "../../schema/SchemaChangePass";
 import { ChangePassword } from "../../services/loginApi";
 import { useForm } from "react-hook-form";
 import {  useState } from "react";
-import bg from "./../../assets/bg.png";
+import bg from "./../../assets/bgg.jpg";
 import { Button, Link } from "@heroui/react";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -106,7 +106,7 @@ console.log(response);
             <Button
               isLoading={isLoading}
               type="submit"
-              className="border bg-green-200 border-green-200 rounded py-2 hover:bg-green-700 duration-200"
+              className="border bg-green-700 border-green-200 rounded py-2 hover:bg-green-800 duration-200"
             >
               SUBMIT
             </Button>

@@ -53,7 +53,7 @@ export default function CommentDropDown({ CommentId, callback  , postId ,refresh
     <>
       <Dropdown>
         <DropdownTrigger>
-          <h2 className="font-bold text-2xl cursor-pointer">...</h2>
+          <h2 className="font-bold text-2xl cursor-pointer text-green-700">...</h2>
         </DropdownTrigger>
         <DropdownMenu aria-label="Static Actions">
           <DropdownItem onClick={onOpen} key="edit">
