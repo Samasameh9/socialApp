@@ -10,15 +10,11 @@ export default function Home() {
  let [AllPosts, setAllPosts] = useState([]);
 
 async function GetAllPosts(){
-  
-  let response=await GetPosts()
-  console.log(response);
-  
+  let response=await GetPosts()  
   if(response.message=='success'){
     setAllPosts(response.data?.posts)
 
   }
-  console.log(response.data?.posts)
 }
 useEffect(()=>{
   GetAllPosts()

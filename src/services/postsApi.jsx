@@ -112,7 +112,7 @@ return error
 //==========================
 export async function GetLikes(postId){
 try {
-    let {data}= await axios.get(`https://route-posts.routemisr.com/posts/${postId}/likes?p`, {
+    let {data}= await axios.get(`https://route-posts.routemisr.com/posts/${postId}/likes`, {
             headers:{
                 Authorization:`Bearer ${localStorage.getItem('token')}`
             },
@@ -137,6 +137,21 @@ export async function SharePost(formdata,postId){
             }
     
  })
+ return data
+ }catch(error){
+return error
+ }
+
+}
+//==========================
+export async function BookmarkUnbookmark(postId){
+ try{
+    let{data}= await axios.put(`https://route-posts.routemisr.com/posts/${postId}/bookmark`,{},
+ { headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+    
+        })  
  return data
  }catch(error){
 return error

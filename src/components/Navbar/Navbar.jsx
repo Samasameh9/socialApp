@@ -31,6 +31,9 @@ export default function Navbar() {
       </NavbarBrand>
       {userToken != null ? (
         <>
+        <NavLink className="text-green-700 font-semibold"  to="/home">Home</NavLink>
+        <NavLink className="text-green-700 px-3 font-semibold"  to="/profile">Profile</NavLink>
+        <NavLink className="text-green-700 font-semibold "  to="/AllBookmarks">Bookmarks</NavLink>
           <NavbarContent as="div" justify="end">
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
@@ -49,22 +52,6 @@ export default function Navbar() {
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">
-                <DropdownItem
-                  key="Profile"
-                  as={Link}
-                  href="/profile"
-                  className="text-green-700"
-                >
-                  Profile
-                </DropdownItem>
-                 <DropdownItem
-                  key="Home"
-                  as={Link}
-                  href="/home"
-                  className="text-green-700"
-                >
-                  Home
-                </DropdownItem>
                 <DropdownItem
                   key="ChangePass"
                   as={Link}

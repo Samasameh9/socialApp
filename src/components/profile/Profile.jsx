@@ -11,18 +11,15 @@ export default function Profile() {
   const { UserDetails, GetUserDetails } = useContext(AuthContext);
   let [userPosts, setuserPosts] = useState([]);
   const [loading, setLoading] = useState(true);
-console.log(UserDetails);
-
   // user posts
   async function GetUserPosts() {
     setLoading(true);
     let response = await UserPosts(UserDetails?.id);
-    console.log(response);
     if (response.message == "success") {
       setuserPosts(response?.data?.posts);
     }
     setLoading(false);
-    console.log(response?.data?.posts);
+  
   }
   //upload photo
   async function handleUpload(e) {

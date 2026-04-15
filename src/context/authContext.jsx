@@ -12,13 +12,12 @@ const [userToken, setuserToken] = useState(null)
  //user details
  async function GetUserDetails(){
   let response=await GetUserLogged()
-  console.log(response)
    if(response.message=='success'){
      setUserDetails(response?.data?.user)
     
      
    }
-   console.log(response.user)
+   
 }
 useEffect(()=>{
     if(localStorage.getItem("token")!=null){

@@ -14,6 +14,7 @@ import ProtectRoutes from "./components/ProtectRoutes";
 import SinglePost from "./components/SinglePost/SinglePost";
 import ChangePass from "./components/Login/ChangePass";
 import NotFound from "./components/NotFound";
+import AllBookmarks from "./components/posts/AllBookmarks";
 
 function App() {
   const router = createBrowserRouter([
@@ -38,6 +39,14 @@ function App() {
           element: (
             <ProtectRoutes>
               <Profile />
+            </ProtectRoutes>
+          ),
+        },
+         {
+          path: "AllBookmarks",
+          element: (
+            <ProtectRoutes>
+              <AllBookmarks/>
             </ProtectRoutes>
           ),
         },
