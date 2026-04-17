@@ -13,37 +13,24 @@ import {
 import toast, { Toaster } from "react-hot-toast";
 import { GetUserBookmarks } from "../../services/User/Bookmarks";
 import { PutFollowUnfollow } from "./../../services/User/followUnfollow";
-import { GetUserProfile } from "../../services/User/userProfile";
 
 export default function PostCard({
   post,
   Allcomment,
   callback,
   refreshBookmarks,
+  AllPosts
 }) {
-  let { UserDetails } = useContext(AuthContext);
+  let { UserDetails, setUserDetails } = useContext(AuthContext);
   let [commentContent, setcommentContent] = useState("");
   let [Allpostcomments, setAllpostcomments] = useState([]);
   let [likeunlick, setlikeunlick] = useState(null);
   let [SaveUnsave, setSaveUnsave] = useState(null);
-  let [followunfollowuser, setfollowunfollowuser] = useState(null);
   let [UserBookmarks, setUserBookmarks] = useState([]);
-  let [userProfileDetails, setuserProfileDetails] = useState([]);
   let [Alllike, setAlllike] = useState([]);
   let [isLoading, setisLoading] = useState(false);
   let [openLikes, setopenLikes] = useState(false);
 
-  async function createComment(e) {
-    setisLoading(true);
-    e.preventDefault();
-    const response = await CreateMyComment(commentContent, post.id);
-    if (response.success == true) {
-      setcommentContent("");
-      await GetAllComments();
-    }
-    setisLoading(false);
-  }
-  //========================
   async function GetAllComments() {
     let response = await GetComments(post.id);
     if (response.success == true) {
@@ -51,6 +38,19 @@ export default function PostCard({
     }
   }
   //========================
+  async function createComment(e) {
+    setisLoading(true);
+    e.preventDefault();
+    const response = await CreateMyComment(commentContent, post.id);
+    if (response.success == true) {
+      setcommentContent("");
+      await GetAllComments();
+      callback();
+    }
+    setisLoading(false);
+  }
+  //========================
+
   async function GetAllLikes() {
     let response = await GetLikes(post.id);
     if (response.success == true) {
@@ -91,21 +91,6 @@ export default function PostCard({
       refreshBookmarks();
     }
   }
-  ///===========================
-  async function createFollowUnfollow() {
-    const response = await PutFollowUnfollow(post?.user?._id);
-    if (response.success == true) {
-      setfollowunfollowuser(response?.data);
-    }
-  }
-  //=============================
-  async function UserProfile() {
-    const response = await GetUserProfile(post?.user?._id);
-    console.log(response);
-    if (response.success == true) {
-      setuserProfileDetails(response?.data?.user);
-    }
-  }
   //=============================
   function OpenLikesPost() {
     setopenLikes(true);
@@ -118,20 +103,27 @@ export default function PostCard({
   }, [post?.id]);
   return (
     <>
-      <div className=" w-full flex flex-col px-3 lg:px-10 py-3  ">
+      <div className=" w-full md:flex flex-col md:px-3 lg:px-10 py-3  ">
         <Toaster />
         <div className="w-sm md:w-lg lg:w-3xl mx-auto bg-white ">
           <div className=" w-full rounded-md shadow-md h-auto py-3 px-3  ">
             <div className="w-full relative h-16 flex items-center  justify-between  ">
               <div className="flex">
-                <img
-                  onClick={() => {
-                    UserDetails?._id !== post?.user?._id && UserProfile();
-                  }}
-                  className={` rounded-full w-10 h-10 me-2 ${UserDetails?._id !== post?.user?._id && "cursor-pointer"}`}
-                  src={post?.user?.photo}
-                  alt="user photo"
-                />
+                {UserDetails?._id !== post?.user?._id ? (
+                  <Link href={`/userprofileDetails/${post?.user?._id}`}>
+                    <img
+                      className={` rounded-full w-10 h-10 me-2 ${UserDetails?._id !== post?.user?._id && "cursor-pointer"}`}
+                      src={post?.user?.photo}
+                      alt="user photo"
+                    />
+                  </Link>
+                ) : (
+                  <img
+                    className={` rounded-full w-10 h-10 me-2 ${UserDetails?._id !== post?.user?._id && "cursor-pointer"}`}
+                    src={post?.user?.photo}
+                    alt="user photo"
+                  />
+                )}
                 <div>
                   <h3 className="text-md font-semibold ">
                     {" "}
@@ -145,23 +137,7 @@ export default function PostCard({
                       .replace("T", " ")}
                   </p>
                 </div>
-                {UserDetails?._id !== post?.user?._id && (
-                  <button
-                    onClick={() => createFollowUnfollow()}
-                    className={`absolute right-5 ${
-                      followunfollowuser?.following ||
-                      UserDetails?.following?.some(
-                        (id) => id === post?.user?._id,
-                      )
-                        ? "text-green-700"
-                        : "text-gray-500"
-                    } font-semibold cursor-pointer`}
-                  >
-                    Follow
-                  </button>
-                )}{" "}
               </div>
-
               {UserDetails?._id == post?.user?._id && (
                 <PostDropDown callback={callback} postId={post.id} />
               )}
@@ -178,11 +154,22 @@ export default function PostCard({
               <div className="flex flex-col gap-2">
                 <div className="border border-gray-200  rounded-md p-3 bg-gray-50">
                   <div className="flex items-center gap-2 mb-2 ">
-                    <img
-                      src={post?.sharedPost?.user?.photo}
-                      className="w-8 h-8 rounded-full"
-                      alt="shared user"
-                    />
+                    {UserDetails?._id !== post?.user?._id ? (
+                      <Link href={`/userprofileDetails/${post?.user?._id}`}>
+                        <img
+                          src={post?.sharedPost?.user?.photo}
+                          className="w-8 h-8 rounded-full"
+                          alt="shared user"
+                        />
+                      </Link>
+                    ) : (
+                      <img
+                        src={post?.sharedPost?.user?.photo}
+                        className={`w-8 h-8 rounded-full ${UserDetails?._id !== post?.user?._id && "cursor-pointer"}`}
+                        alt="shared user"
+                      />
+                    )}
+
                     <h4 className="text-sm font-semibold">
                       {post?.sharedPost?.user?.name}
                       <p className="text-xs text-gray-500">
@@ -314,7 +301,7 @@ export default function PostCard({
                       ? "green"
                       : likeunlick?.liked === false
                         ? "#838383"
-                        : Alllike?.some((like) => like._id === UserDetails.id)
+                        : Alllike?.some((like) => like._id === UserDetails?.id)
                           ? "green"
                           : "#838383"
                   }
@@ -330,7 +317,7 @@ export default function PostCard({
                       ? "text-green-600"
                       : likeunlick?.liked === false
                         ? "text-gray-600"
-                        : Alllike?.some((like) => like._id === UserDetails.id)
+                        : Alllike?.some((like) => like._id === UserDetails?.id)
                           ? "text-green-600"
                           : "text-gray-600"
                   }`}

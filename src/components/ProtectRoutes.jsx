@@ -8,3 +8,9 @@ export default function ProtectRoutes({ children }) {
     return <Navigate to="/" />;
   }
 }
+export  function PublicRoute({ children }) {
+  if (localStorage.getItem("token")) {
+    return <Navigate to="/foryou" />;
+  }
+  return children;
+}

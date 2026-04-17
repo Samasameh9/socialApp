@@ -1,31 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import { GetPosts } from '../../services/postsApi'
-import Loading from '../LoadingPage/Loading';
+import { GetHome } from '../../services/postsApi'
 import PostCard from '../card/PostCard';
-import CreatePost from './../posts/Createpost'
-
+import Loading from '../LoadingPage/Loading';
 
 export default function Home() {
+  const [Homeposts,setHomeposts] = useState([])
+    const [loading, setLoading] = useState(true);
+    async function GetHomePosts() {
+        setLoading(true);
+        const response= await GetHome()
+        console.log(response);
+        if(response.success==true){
+            setHomeposts(response?.data?.posts)
+        }
+        setLoading(false)
+        
+    }
+    useEffect(()=>{
+        GetHomePosts();
+    },[]);
+  return <>
   
- let [AllPosts, setAllPosts] = useState([]);
-
-async function GetAllPosts(){
-  let response=await GetPosts()  
-  if(response.message=='success'){
-    setAllPosts(response.data?.posts)
-
-  }
-}
-useEffect(()=>{
-  GetAllPosts()
-},[])
-  return<>
-      
-  <div className='bg-gray-300'>
-    <CreatePost callback={GetAllPosts}/>
-    {AllPosts.length>0?AllPosts.map((post)=>{return  <PostCard key={post.id} post={post}   Allcomment={false} callback={GetAllPosts}/>}):<Loading/>}
-          
-  </div>
+    <h2 className="flex justify-center text-2xl font-bold text-green-700 py-4"> Posts</h2>
+        {loading ? (
+          <Loading />
+        ) : Homeposts.length === 0 ? (
+          <h2 className="text-center font-bold text-3xl text-green-700 my-5">
+            No posts
+          </h2>
+        ) : (
+          Homeposts.map((post) => (
+            <PostCard key={post?.id} post={post}  Allcomment={false} Homeposts={Homeposts} />
+          ))
+        )}
+  
   
   </>
 }

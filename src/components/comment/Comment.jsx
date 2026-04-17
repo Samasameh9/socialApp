@@ -2,9 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import userimage from "./../../assets/user.png";
 import { AuthContext } from "../../context/authContext";
 import CommentDropDown from "./CommentDropDown";
-import { CreateReply, GetReplies, PutLikeUnlike } from "../../services/CommentsApi";
+import {
+  CreateReply,
+  GetReplies,
+  PutLikeUnlike,
+} from "../../services/CommentsApi";
 import {
   Button,
+  Link,
   Modal,
   ModalBody,
   ModalContent,
@@ -12,8 +17,9 @@ import {
   ModalHeader,
   useDisclosure,
 } from "@heroui/react";
-
+import ReplyCommentss from "./ReplyComments";
 export default function Comment({
+  Allcomment,
   Comment,
   id,
   callback,
@@ -21,7 +27,7 @@ export default function Comment({
   refreshComments,
 }) {
   let { UserDetails } = useContext(AuthContext);
-   let [Alllike, setAlllike] = useState([]);
+  let [Alllike, setAlllike] = useState([]);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [postBody, setpostBody] = useState("");
   const [image, setimage] = useState("");
@@ -29,6 +35,7 @@ export default function Comment({
   const [isLoading, setisLoading] = useState(false);
   const [error, setError] = useState("");
   const [ReplyComments, setReplyComments] = useState([]);
+  const [showReplies, setShowReplies] = useState(false);
 
   async function CreateReplyComment() {
     const formdata = new FormData();
@@ -42,7 +49,8 @@ export default function Comment({
       setimage("");
       setimageUrl("");
       setError("");
-      GetCommentsReplies
+      GetCommentsReplies;
+      callback();
     }
   }
   function handleImg(e) {
@@ -51,41 +59,56 @@ export default function Comment({
     e.target.value = "";
   }
   //===========================
-  
-  async function CreateLikeUnlick(){
-    const response =await PutLikeUnlike(Comment?._id,postId)
-    if(response.success==true){
-       setAlllike(response?.data);
+
+  async function CreateLikeUnlick() {
+    const response = await PutLikeUnlike(Comment?._id, postId);
+    if (response.success == true) {
+      setAlllike(response?.data);
     }
-    
   }
   //================================
   async function GetCommentsReplies() {
-    const response=await GetReplies(postId,Comment?._id)
-    if(response.success==true){
-      setReplyComments(response?.data?.replies)
+    const response = await GetReplies(postId, Comment?._id);
+    if (response.success == true) {
+      setReplyComments(response?.data?.replies);
     }
-    
   }
   useEffect(() => {
-    GetCommentsReplies()
-   }, [postId]);
+    GetCommentsReplies();
+  }, [postId, Comment?._id]);
   return (
     <>
       <div className="w-full relative flex items-center bg-gray-100  justify-between border-1 border-gray-200 py-1 rounded-md px-2 my-2">
         <div className="flex">
-          <img
-            onError={(e) => {
-              e.target.src = userimage;
-            }}
-            className=" rounded-full w-10 h-10 mr-3"
-            src={
-              UserDetails?._id === Comment?.commentCreator?._id
-                ? UserDetails?.photo
-                : Comment?.commentCreator?.photo
-            }
-            alt="user photo"
-          />
+          {UserDetails?._id !== Comment?.commentCreator?._id ? (
+            <Link href={`/userprofileDetails/${Comment?.commentCreator?._id}`}>
+              <img
+                onError={(e) => {
+                  e.target.src = userimage;
+                }}
+                className=" rounded-full w-10 h-10 mr-3"
+                src={
+                  UserDetails?._id === Comment?.commentCreator?._id
+                    ? UserDetails?.photo
+                    : Comment?.commentCreator?.photo
+                }
+                alt="user photo"
+              />
+            </Link>
+          ) : (
+            <img
+              onError={(e) => {
+                e.target.src = userimage;
+              }}
+              className=" rounded-full w-10 h-10 mr-3"
+              src={
+                UserDetails?._id === Comment?.commentCreator?._id
+                  ? UserDetails?.photo
+                  : Comment?.commentCreator?.photo
+              }
+              alt="user photo"
+            />
+          )}
 
           <div>
             <h3 className="text-md font-semibold ">
@@ -102,57 +125,32 @@ export default function Comment({
             <p>{Comment?.content}</p>
             <div className="absolute top-10 right-5">
               <button
-              onClick={onOpen}
-              className="text-xs border p-1 cursor-pointer  rounded border-green-700"
-            >
-              Reply
-            </button>
-            
-            <button onClick={()=>{CreateLikeUnlick()}} className={`text-xs mx-2 p-1 border rounded border-green-700 cursor-pointer ${Alllike?.liked==true?'text-green-700':"text-black"}`}>
-              Like
-            </button>
+                onClick={onOpen}
+                className="text-xs border p-1 cursor-pointer  rounded border-green-700"
+              >
+                Reply
+              </button>
+
+              <button
+                onClick={() => {
+                  CreateLikeUnlick();
+                }}
+                className={`text-xs mx-2 p-1 border rounded border-green-700 cursor-pointer ${Alllike?.liked == true ? "text-green-700" : "text-black"}`}
+              >
+                Like
+              </button>
             </div>
             <div className="w-full flex  flex-col gap-2 items-center bg-gray-100  justify-between  py-1 rounded-md px-2 ">
-              {ReplyComments.map((reply) => (
-                <div
-                  key={reply._id}
-                  className="w-full flex border border-gray-200  items-center bg-gray-100  py-1 rounded-md px-2 my-2"
-                >
-                  <div className="flex">
-                    <img
-                      onError={(e) => (e.target.src = userimage)}
-                      className="rounded-full w-10 h-10 mr-3"
-                      src={reply?.commentCreator?.photo}
-                      alt="user"
-                    />
-
-                    <div>
-                      <h3 className="text-md font-semibold">
-                        {reply?.commentCreator?.name}
-                      </h3>
-
-                      <p className="text-xs text-gray-500">
-                        {reply?.createdAt?.split(".")[0].replace("T", " ")}
-                      </p>
-
-                      <p>{reply?.content}</p>
-                      {reply?.image && (
-                        <div>
-                          <img
-                            src={reply?.image}
-                            className="w-full h-40 object-cover  rounded-2xl"
-                            alt="reply image"
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ))}
+              {ReplyComments?.length >0 && <button className="text-green-700 cursor-pointer" onClick={() => setShowReplies(!showReplies)}>
+                {showReplies ? "Hide Replies" : "Show Replies"}
+              </button>}
+              {showReplies &&
+                ReplyComments.map((reply) => (
+                  <ReplyCommentss reply={reply} key={reply._id} />
+                ))}
             </div>
           </div>
         </div>
-
         {UserDetails?._id == Comment?.commentCreator?._id &&
           UserDetails?._id == id && (
             <CommentDropDown

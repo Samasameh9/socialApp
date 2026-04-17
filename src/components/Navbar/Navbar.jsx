@@ -27,12 +27,13 @@ export default function Navbar() {
   return (
     <HeroNav className="h-20 bg-gray-200 ">
       <NavbarBrand>
-        <p className="font-bold   text-2xl text-green-700">Social App</p>
+        <p className="font-bold  text-2xl text-green-700">Social App</p>
       </NavbarBrand>
       {userToken != null ? (
         <>
-        <NavLink className="text-green-700 font-semibold"  to="/home">Home</NavLink>
-        <NavLink className="text-green-700 px-3 font-semibold"  to="/profile">Profile</NavLink>
+        <NavLink className="text-green-700 font-semibold"  to="/foryou">For you</NavLink>
+                <NavLink className="text-green-700 font-semibold"  to="/home">Home</NavLink>
+        <NavLink className="text-green-700 md:px-3 font-semibold"  to="/profile">Profile</NavLink>
         <NavLink className="text-green-700 font-semibold "  to="/AllBookmarks">Bookmarks</NavLink>
           <NavbarContent as="div" justify="end">
             <Dropdown placement="bottom-end">

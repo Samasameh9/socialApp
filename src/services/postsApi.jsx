@@ -158,3 +158,18 @@ return error
  }
 
 }
+//===========================
+export async function GetHome(){
+try {
+    let {data}= await axios.get('https://route-posts.routemisr.com/posts/feed?only=following&limit=10', {
+            headers:{
+                Authorization:`Bearer ${localStorage.getItem('token')}`
+            }
+        }
+    )
+    return data
+
+} catch (error) {
+    return error
+}
+}

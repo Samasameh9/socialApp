@@ -52,7 +52,7 @@ export default function Profile() {
   return (
     <>
       <Toaster />
-     <div className="md:flex items-center ">
+     <div className="flex flex-col text-center md:flex-row items-center ">
        <div className=" w-sm mx-auto lg:w-1/5 "><img src={UserDetails?.photo} alt="user photo" className="rounded-2xl w-full" /></div>
        <div className="px-5 py-5"><h3 className="font-bold text-green-700">Followers: {UserDetails?.followersCount}</h3>
        <h3 className="font-bold text-green-700">Following: {UserDetails?.followingCount}</h3>
@@ -95,7 +95,7 @@ export default function Profile() {
         </h2>
       ) : (
         userPosts.map((post) => (
-          <PostCard key={post?._id} post={post} callback={GetUserPosts} />
+          <PostCard key={post?._id} post={post} callback={GetUserPosts} Allcomment={false} />
         ))
       )}
     </>
