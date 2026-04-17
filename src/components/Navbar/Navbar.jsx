@@ -31,10 +31,12 @@ export default function Navbar() {
       </NavbarBrand>
       {userToken != null ? (
         <>
-        <NavLink className="text-green-700 font-semibold"  to="/foryou">For you</NavLink>
+<div className="flex gap-5 hidden md:block">
+          <NavLink className="text-green-700 font-semibold"  to="/foryou">For you</NavLink>
                 <NavLink className="text-green-700 font-semibold"  to="/home">Home</NavLink>
         <NavLink className="text-green-700 md:px-3 font-semibold"  to="/profile">Profile</NavLink>
         <NavLink className="text-green-700 font-semibold "  to="/AllBookmarks">Bookmarks</NavLink>
+</div>
           <NavbarContent as="div" justify="end">
             <Dropdown placement="bottom-end">
               <DropdownTrigger>
@@ -53,6 +55,39 @@ export default function Navbar() {
                 />
               </DropdownTrigger>
               <DropdownMenu aria-label="Profile Actions" variant="flat">
+                 <DropdownItem
+                  key="foryou"
+                  as={Link}
+                  href="/foryou"
+                  className="text-green-700"
+                >
+                  For you
+                </DropdownItem>
+                   <DropdownItem
+                  key="home"
+                  as={Link}
+                  href="/home"
+                  className="text-green-700"
+                >
+                  Home
+                </DropdownItem>
+                   <DropdownItem
+                  key="profile"
+                  as={Link}
+                  href="/profile"
+                  className="text-green-700"
+                >
+                  Profile
+                </DropdownItem>
+                 <DropdownItem
+                  key="bookmarks"
+                  as={Link}
+                  href="/AllBookmarks"
+                  className="text-green-700"
+                >
+                  Bookmarks
+                </DropdownItem>
+                
                 <DropdownItem
                   key="ChangePass"
                   as={Link}
